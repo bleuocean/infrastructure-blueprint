@@ -1,0 +1,9 @@
+[sshd]
+enabled  = true            
+port     = xxxx            
+filter   = sshd            
+logpath  = /var/log/auth.log
+maxretry = 2                
+findtime = 600              
+bantime  = 14400            
+backend  = systemd          
