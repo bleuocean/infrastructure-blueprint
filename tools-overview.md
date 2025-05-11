@@ -5,6 +5,11 @@ Each tool is selected for reliability, transparency, and ability to integrate in
 
 ---
 
+## Ansible
+**Infrastructure automation and configuration management tool.**  
+Used for: provisioning systems, deploying configurations, managing services (e.g., Filebeat, ClamAV), and enforcing security policies.  
+Ansible roles and templates ensure consistency across Debian/Ubuntu-based environments and allow repeatable, version-controlled infrastructure setup.
+
 ## Wazuh
 **Open source SIEM and host-based intrusion detection system (HIDS).**  
 Used for: log correlation, file integrity monitoring, rootkit detection, and security alerts.
