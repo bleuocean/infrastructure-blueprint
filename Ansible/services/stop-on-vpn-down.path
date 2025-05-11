@@ -1,0 +1,10 @@
+[Unit]
+Description=Watch VPN interface and stop SSH tunnel when it disappears
+
+[Path]
+PathExists=/proc/sys/net/ipv4/conf/tun0
+Unit=stop-on-vpn-down.service
+
+[Install]
+WantedBy=multi-user.target
+

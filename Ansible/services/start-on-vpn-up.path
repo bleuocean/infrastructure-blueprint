@@ -1,0 +1,9 @@
+[Unit]
+Description=Watch for VPN interface and start SSH tunnels when it appears
+
+[Path]
+PathExists=/proc/sys/net/ipv4/conf/tun0
+Unit=start-on-vpn-up.service
+
+[Install]
+WantedBy=multi-user.target

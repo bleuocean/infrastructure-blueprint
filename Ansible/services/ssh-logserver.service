@@ -1,0 +1,19 @@
+[Unit]
+Description=Reverse SSH Tunnel for Filebeat and Auditbeat to Elasticsearch
+After=network.target
+
+[Service]
+User=user
+ExecStart=/usr/bin/autossh -M 0 -N \
+  -o "ServerAliveInterval=30" \
+  -o "ServerAliveCountMax=3" \
+  -o "ExitOnForwardFailure=yes" \
+  -i /home/user/.ssh/identityfile-logserver \
+  -p 0000 \
+  -L 0000:localhost:0000 \
+  user@logserver
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

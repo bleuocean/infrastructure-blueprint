@@ -1,0 +1,8 @@
+[Unit]
+Description=Start SSH tunnels when VPN is up
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/systemctl start ssh-wazuhserver.service
+ExecStart=/bin/systemctl start ssh-logserver.service

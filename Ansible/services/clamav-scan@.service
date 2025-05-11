@@ -1,0 +1,8 @@
+[Unit]
+Description=ClamAV On-Demand Scan for %i
+Wants=clamav-daemon.service
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/clamscan --move=/quarantine --recursive /%i

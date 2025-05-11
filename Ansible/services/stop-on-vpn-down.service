@@ -1,0 +1,9 @@
+[Unit]
+Description=Stop SSH tunnel if VPN is down
+StopWhenUnneeded=true
+
+[Service]
+Type=oneshot
+ExecStart=/bin/systemctl stop ssh-logserver.service
+ExecStart=/bin/systemctl stop ssh-wazuhserver.service
+
