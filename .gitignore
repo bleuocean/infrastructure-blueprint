@@ -1,0 +1,9 @@
+
+# Prevent decrypted Ansible secrets from being committed
+vault.yml
+.vault_pass.txt
+
+# Optional: prevent editor/OS/system files
+*.swp
+*.bak
+.DS_Store
