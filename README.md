@@ -1,8 +1,8 @@
 # Infrastructure Blueprint for Secure and Observable Ops
 
-**bleuocean/infrastructure-blueprint** is a production-grade infrastructure template designed for teams that want visibility, security, and automation without unnecessary complexity or vendor lock-in.
+**bleuocean/infrastructure-blueprint** is a production-grade infrastructure template designed for teams that want visibility, security and automation without unnecessary complexity or vendor lock-in.
 
-This project demonstrates how to combine open-source tooling with solid DevSecOps practices in a clean, reproducible, and professional setup.
+This project demonstrates how to combine open-source tooling with solid DevSecOps practices in a clean, reproducible and professional setup.
 
 ---
 
