@@ -16,6 +16,8 @@ This project demonstrates how to combine open-source tooling with solid DevSecOp
 - 🧱 Proxy server design to isolate web applications  
 - 🧠 Dashboard plans to visualize incoming data and guide response actions
 
+🔍 Not familiar with the tools used? Check out the [Tools Overview](tools-overview.md).
+
 ---
 
 ## 🧱 Project Structure
