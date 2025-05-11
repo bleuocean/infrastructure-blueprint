@@ -1,4 +1,4 @@
-# 🧠 About Me
+# About Me
 
 I come from a non-traditional IT background, originally working in supply chain operations, but I've independently developed the skills to build secure, observable, and automated infrastructure from the ground up.
 

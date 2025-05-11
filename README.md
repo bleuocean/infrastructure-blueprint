@@ -130,4 +130,5 @@ If you're building something worth defending, or want to learn how —
 I’m always open for conversation, collaboration, or code.
 
 📬 Reach me via email: bleuocean-ops@proton.me
+
 📫 [GitHub](https://github.com/bleuocean)
