@@ -1,0 +1,40 @@
+auditbeat.modules:
+  - module: auditd
+    data_stream:
+      enabled: false
+    audit_rule_files: [ '${path.config}/audit.rules.d/*.conf' ]
+    audit_rules: |
+      -a always,exit -F arch=b64 -S execve,execveat -k exec_log
+      -a always,exit -F arch=b32 -S execve,execveat -k exec_log
+
+fields:
+  input_id: auditbeat
+  log_type: auditd
+fields_under_root: true
+
+setup.ilm.enabled: false
+setup.template.enabled: false
+setup.kibana.host: ""
+setup.dashboards.enabled: false
+
+output.elasticsearch:
+  hosts: ["https://localhost:9300"]
+  api_key: "some:key"
+  ssl.certificate_authorities: ["/etc/auditbeat/certs/http_ca.crt"]
+  index: "auditbeat-%{+yyyy.MM.dd}"
+
+processors:
+  - add_host_metadata: ~
+  - add_process_metadata:
+      match_pids: [process.pid, process.parent.pid]
+      overwrite_keys: true
+  - add_docker_metadata: ~
+
+logging:
+  level: warning
+  to_files: true
+  files:
+    path: /var/log/auditbeat
+    name: auditbeat
+    keepfiles: 7
+    permissions: 0644

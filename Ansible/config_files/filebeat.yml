@@ -1,0 +1,60 @@
+filebeat.data_stream.enabled: false
+
+filebeat.inputs:
+
+- type: filestream
+  id: clamav-log
+  input_id: clamav-log
+  paths:
+    - /var/log/clamav/clamav.log
+  fields:
+    log_type: clamav
+  fields_under_root: true
+
+- type: filestream
+  id: system-logs
+  input_id: system-logs
+  enabled: true
+  paths:
+    - /var/log/syslog
+    - /var/log/auth.log
+  fields:
+    log_type: system
+  fields_under_root: true
+
+- type: filestream
+  id: fail2ban-log
+  input_id: fail2ban-log
+  enabled: true
+  paths:
+    - /var/log/fail2ban.log
+  ignore_missing: true
+  close_inactive: 5m
+  fields:
+    log_type: fail2ban
+  fields_under_root: true
+
+setup.ilm.enabled: false
+setup.template.enabled: false
+setup.kibana.host: ""
+setup.dashboards.enabled: false
+
+output.elasticsearch:
+    hosts: ["https://localhost:9200"]
+    api_key: "some:key"
+    ssl.certificate_authorities: ["/etc/filebeat/certs/http_ca.crt"]
+    indices:
+      - index: "filebeat-%{+yyyy.MM.dd}"
+
+processors:
+  - add_host_metadata:
+      when.not.contains.tags: forwarded
+
+logging:
+  level: warning
+  to_files: true
+  files:
+    path: /var/log/filebeat
+    name: filebeat
+    keepfiles: 7
+    permissions: 0644

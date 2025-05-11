@@ -1,0 +1,18 @@
+# This file contains encrypted secrets used by Ansible.
+# Encrypt or edit it with:
+#
+#   ansible-vault create vault.yml
+#   ansible-vault edit vault.yml
+#   ansible-vault view vault.yml
+#
+# Re-encrypt or decrypt with:
+#   ansible-vault encrypt vault.yml
+#   ansible-vault decrypt vault.yml
+#
+# You can also use:
+#   ansible-playbook playbook.yml --ask-vault-pass
+# or:
+#   ansible-playbook playbook.yml --vault-password-file ~/.vault_pass.txt
+#
+# 🔒 Don't commit this unencrypted!
+super_secret_key: "this_is_not_the_key_you_are_looking_for"
