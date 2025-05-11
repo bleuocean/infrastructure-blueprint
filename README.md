@@ -9,8 +9,8 @@ This project demonstrates how to combine open-source tooling with solid DevSecOp
 ## 🌐 What It Covers
 
 - 🔐 VPN-based SSH tunneling with failover and stealth modes  
-- 🛡️ System hardening using UFW, Fail2Ban, real-time malware scanning (ClamAV), and Lynis audits  
-- 📈 Full monitoring stack with Wazuh + Filebeat + Auditbeat + ELK  
+- 🛡️ System hardening using UFW, Fail2Ban, real-time malware scanning (ClamAV) and Lynis audits  
+- 📈 Full monitoring stack with Wazuh manager + Filebeat + Auditbeat + ELK  
 - 🧩 Modular Ansible automation for Debian 12 / Ubuntu 22.04  
 - 📡 CMS-agnostic **Threat Sensor** agent for detecting login attempts and HTTP probing  
 - 🧱 Proxy server design to isolate web applications  
@@ -29,7 +29,7 @@ infrastructure-blueprint/
 │   └── scripts/              # Bash helper scripts used in tasks or for local actions
 ├── monitoring/
 │   ├── elk-stack.md          # Elasticsearch + Kibana setup and tips
-│   └── stealth-logserver.md  # Hidden logging node ("InfraMon")
+│   └── stealth-logserver.md  # Hidden logging node
 ├── proxy/
 │   └── [planned]             # Future proxy server configuration and logic
 ├── security/
@@ -72,7 +72,7 @@ infrastructure-blueprint/
 
 Security starts at the edge: we begin by protecting external access (SSH, firewall policies, strict port filtering), and then turn inward — auditing system state, service configuration, and user behavior.
 
-We use:
+I use:
 - UFW to control inbound/forwarding rules
 - Fail2Ban for basic brute force protection
 - Lynis for periodic local audits based on CIS and hardening guidelines
