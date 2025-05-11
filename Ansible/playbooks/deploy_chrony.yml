@@ -1,0 +1,40 @@
+- name: Deploys chrony
+  hosts: all
+  become: true
+  gather_facts: false
+  vars_files:
+    - ../vault.yml
+
+  tasks:
+    - name: Ensure chrony is installed
+      ansible.builtin.package:
+        name: chrony
+        state: present
+
+    - name: Disable systemd-timesyncd if present
+      ansible.builtin.systemd:
+        name: systemd-timesyncd.service
+        enabled: false
+        state: stopped
+      ignore_errors: true 
+
+    - name: Enable and start chrony
+      ansible.builtin.systemd:
+        name: chrony
+        enabled: true
+        state: started
+
+    - name: Wait a few seconds for chrony to sync
+      ansible.builtin.pause:
+        seconds: 3
+
+    - name: Show chrony sources
+      ansible.builtin.command: chronyc sources
+      register: chrony_sources
+      changed_when: false
+
+    - name: Display time sync sources
+      ansible.builtin.debug:
+        var: chrony_sources.stdout_lines
+
+#  handlers:

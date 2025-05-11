@@ -1,0 +1,68 @@
+- name: Deploy and configure ClamAV with real-time and scheduled scanning
+  hosts: all
+  become: true
+  gather_facts: false
+  vars_files:
+    - ../vault.yml
+
+  tasks:
+    - name: Install ClamAV packages
+      apt:
+        name:
+          - clamav
+          - clamav-daemon
+        state: present
+        update_cache: yes
+
+    - name: Deploy clamd.conf
+      copy:
+        src: ../config_files/clamd.conf
+        dest: /etc/clamav/clamd.conf
+        owner: root
+        group: clamav
+        mode: '0644'
+      notify: restart clamav-daemon
+
+    - name: Ensure /quarantine directory exists
+      file:
+        path: /quarantine
+        state: directory
+        owner: clamav
+        group: clamav
+        mode: '0750'
+
+    - name: Deploy systemd scan template
+      copy:
+        src: ../services/clamav-scan@.service
+        dest: /etc/systemd/system/clamav-scan@.service
+        mode: '0644'
+
+    - name: Deploy daily scan timer (/home)
+      copy:
+        src: ../services/clamav-scan@home.timer
+        dest: /etc/systemd/system/clamav-scan@home.timer
+        mode: '0644'
+
+    - name: Deploy weekly scan timer (/)
+      copy:
+        src: ../services/clamav-scan@root.timer
+        dest: /etc/systemd/system/clamav-scan@root.timer
+        mode: '0644'
+
+    - name: Enable and start daily scan timer
+      systemd:
+        name: clamav-scan@home.timer
+        enabled: true
+        state: started
+
+    - name: Enable and start weekly scan timer
+      systemd:
+        name: clamav-scan@root.timer
+        enabled: true
+        state: started
+
+  handlers:
+    - name: restart clamav-daemon
+      service:
+        name: clamav-daemon
+        state: restarted

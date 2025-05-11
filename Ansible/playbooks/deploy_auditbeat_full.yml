@@ -1,0 +1,75 @@
+- name: Deploys audit beat full
+  hosts: all
+  become: true
+  gather_facts: false
+  vars_files:
+    - ../vault.yml
+
+  tasks:
+
+    - name: Ensure GPG is installed for apt_key
+      apt:
+        name: gnupg
+        state: present
+
+    - name: Add Elastic GPG key
+      ansible.builtin.apt_key:
+        url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+        state: present
+
+    - name: Add Elastic APT repository
+      ansible.builtin.apt_repository:
+        repo: "deb https://artifacts.elastic.co/packages/8.x/apt stable main"
+        state: present
+        filename: elastic
+
+    - name: Update APT cache
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Install Auditbeat
+      ansible.builtin.apt:
+        name: auditbeat
+        state: present
+
+    - name: Deploy Auditbeat configuration
+      ansible.builtin.copy:
+        src: ../config_files/auditbeat.yml
+        dest: /etc/auditbeat/auditbeat.yml
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Ensure certs directory exists
+      ansible.builtin.file:
+        path: /etc/auditbeat/certs
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Copy Elastic CA certificate
+      ansible.builtin.copy:
+        src: ../certs/http_ca.crt
+        dest: /etc/auditbeat/certs/http_ca.crt
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Enable Auditbeat service
+      ansible.builtin.systemd:
+        name: auditbeat
+        enabled: true
+
+    - name: Validate Auditbeat config
+      command: auditbeat test config -c /etc/auditbeat/auditbeat.yml
+      register: auditbeat_config_test
+      changed_when: false
+      failed_when: auditbeat_config_test.rc != 0
+
+    - name: Show Auditbeat config test result
+      debug:
+        var: auditbeat_config_test.stdout
+
+
+#  handlers:
